@@ -4,7 +4,7 @@
              ref="ruleForm"
              :rules="rules"
              label-position="left">
-      <el-form-item class="avator-item">
+<!--       <el-form-item class="avator-item">
         <div class="avator" :style="{backgroundImage: 'url(' + infoForm.photo + ')'}">
           <div class="layer">
             <span class="text">编辑</span>
@@ -12,7 +12,7 @@
           <input type="file" @change="onFileChange" class="upload">
         </div>
         <span class="tip">只能上传jpg/png文件，且不超过1mb</span>
-      </el-form-item>
+      </el-form-item> -->
       <el-form-item
         label-width="80px"
         label="账号"
@@ -21,6 +21,9 @@
       </el-form-item>
       <el-form-item label-width="80px" label="姓名">
         <el-input v-model="infoForm.name"></el-input>
+      </el-form-item>
+      <el-form-item label-width="80px" label="密码">
+         <el-input v-model="infoForm.pwd" show-password></el-input>
       </el-form-item>
       <el-form-item label-width="80px" label="生日">
         <el-date-picker
@@ -93,19 +96,19 @@
         if (!self.infoForm.name) {
           self.infoForm.name = ''
         }
-        console.log(self.infoForm.gender+','+self.infoForm.birthday),
 
-        self.formData.append('email', self.infoForm.email)
+        self.formData.append('account', self.infoForm.account)
         self.formData.append('birthday', Utils.dateFormat(self.infoForm.birthday))
         self.formData.append('gender', self.infoForm.gender)
         self.formData.append('name', self.infoForm.name)
+        self.formData.append('pwd', self.infoForm.pwd)
         self.$refs['ruleForm'].validate((valid) => {
           if (valid) {
-            // rootController.saveProfile(self.formData).then((profile) => {
-            //   self.user.avatar_path = profile.avatar_path
-            //   self.user.name = profile.name
-            //   self.$emit('child-say1', false)
-            // })
+            rootController.saveUserInfo(self.formData).then((data) => {
+                   console.log(data)
+            }).catch((e) => {
+               console.error(e)
+            })
           } else {
             return false;
           }

@@ -7,3 +7,9 @@ export const getUserInfo = () => {
         return data;
 	})
 };
+
+export const saveUserInfo = (data) => {
+	request('me/info/save','post',data).then((data) =>{
+		return data
+	})
+}

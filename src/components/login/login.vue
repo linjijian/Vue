@@ -43,6 +43,8 @@ export default {
             account: self.LoginForm.account,
             pwd: self.LoginForm.password
           }).then((res) => {
+             sessionStorage.setItem('account', self.LoginForm.account)
+             sessionStorage.setItem('pwd', self.LoginForm.password)
              self.$router.push({ path: '/' })
           }).catch((e) => {
             console.error(e)

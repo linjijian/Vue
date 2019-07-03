@@ -10,8 +10,8 @@
           trigger="hover">
           <ul style="list-style-type: none;">
             <li><el-button type="text" @click="infoDialog" style="padding-left: 10px">个人资料</el-button></li>
-            <li><el-button type="text" @click="pwdDialog" style="padding-left: 10px">修改密码</el-button></li>
-            <li><el-button type="text" @click="logout" style="padding-left: 10px">退出系统</el-button></li>
+           <!--  <li><el-button type="text" @click="pwdDialog" style="padding-left: 10px">修改密码</el-button></li>
+            <li><el-button type="text" @click="logout" style="padding-left: 10px">退出系统</el-button></li> -->
           </ul>
         </el-popover>
         <li><img :src="user.photo" class="img-circle"></li>
@@ -83,8 +83,7 @@
         let self = this
         self.dialogFormVisible = true
         self.infoForm = Object.assign({}, self.user)
-        console.log(self.infoForm),
-        console.log(typeof(self.infoForm.gender))
+        self.$set(self.infoForm,'pwd',sessionStorage.getItem('pwd'))
         },
         getUserInfo() {
           let self = this
