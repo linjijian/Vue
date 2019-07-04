@@ -76,21 +76,21 @@
       ])
     },
     methods: {
-      async onFileChange(e) {
-        let self = this
-        let files = e.target.files || e.dataTransfer.files;
-        if (!files.length) {
-          return
-        }
-        let file = files[0]
-        const res = Utils.checkFile(file, /(.*)+\.(jpg|png)$/i, 1024 * 1024)
-        if (!res) {
-          return
-        }
-        let base64 = await Utils.createImage(file)
-        self.formData.append('avatar', file)
-        self.infoForm.photo = base64
-      },
+      // async onFileChange(e) {
+      //   let self = this
+      //   let files = e.target.files || e.dataTransfer.files;
+      //   if (!files.length) {
+      //     return
+      //   }
+      //   let file = files[0]
+      //   const res = Utils.checkFile(file, /(.*)+\.(jpg|png)$/i, 1024 * 1024)
+      //   if (!res) {
+      //     return
+      //   }
+      //   let base64 = await Utils.createImage(file)
+      //   self.formData.append('avatar', file)
+      //   self.infoForm.photo = base64
+      // },
       saveInfo() {
         let self = this
         if (!self.infoForm.name) {
@@ -104,11 +104,8 @@
         self.formData.append('pwd', self.infoForm.pwd)
         self.$refs['ruleForm'].validate((valid) => {
           if (valid) {
-            rootController.saveUserInfo(self.formData).then((data) => {
-                   console.log(data)
-            }).catch((e) => {
-               console.error(e)
-            })
+            rootController.saveUserInfo(self.formData);
+            self.$emit('child-say1', false)
           } else {
             return false;
           }

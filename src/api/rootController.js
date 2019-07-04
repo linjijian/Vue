@@ -9,7 +9,5 @@ export const getUserInfo = () => {
 };
 
 export const saveUserInfo = (data) => {
-	request('me/info/save','post',data).then((data) =>{
-		return data
-	})
+	request('me/info/save', 'post', data);
 }

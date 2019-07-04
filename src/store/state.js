@@ -32,22 +32,22 @@ const state = {
           title: '商品管理',
           sub_permission: [
             {
-              id: 164,
-              route: '/system-manage',
-              title: '系统管理'
+              id: 171,
+              route: '/product/productInfo',
+              title: '产品信息'
             },
             {
-              id: 166,
-              route: '/ec-site',
-              title: '电商管理'
+              id: 172,
+              route: '/product/productExAttrib',
+              title: '扩展属性'
             },
             {
-              id: 167,
+              id: 173,
               route: '/exchange-manage',
               title: '汇率管理'
             },
             {
-              id: 168,
+              id: 174,
               route: '/warehouse-set',
               title: '仓库设置'
             },

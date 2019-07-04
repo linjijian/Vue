@@ -50,7 +50,7 @@
       </el-col>
     </el-row>
     <el-dialog class="dialog" title="个人资料" :visible.sync="dialogFormVisible" width="30%">
-      <personal-data :infoForm="infoForm" @child-say1="listenToMyBoy" @showQrCode="showQrcode">
+      <personal-data :infoForm="infoForm" @child-say1="listenToMyBoy">
       </personal-data>
     </el-dialog>
    </div>
@@ -67,6 +67,8 @@
         return {
           index: '/',
           dialogFormVisible: false,
+          pwdFormVisible: false,
+          umFormVisible: false,
           user: {},
           infoForm: {},
         }
@@ -79,11 +81,17 @@
          self.getUserInfo()
       },
       methods: {
+        listenToMyBoy: function(somedata) {
+        let self = this
+        self.dialogFormVisible = somedata
+        self.pwdFormVisible = somedata
+        self.getUserInfo()
+      },
         infoDialog() {
         let self = this
         self.dialogFormVisible = true
         self.infoForm = Object.assign({}, self.user)
-        self.$set(self.infoForm,'pwd',sessionStorage.getItem('pwd'))
+        self.$set(self.infoForm, 'pwd', sessionStorage.getItem('pwd'))
         },
         getUserInfo() {
           let self = this
