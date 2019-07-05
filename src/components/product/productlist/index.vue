@@ -2,7 +2,7 @@
 	<div class="sd-comm-manage">
 		<el-row class="nav">
 			<el-breadcrumb separator="/">
-				<el-breadcrumb-item>产品管理</el-breadcrumb-item>
+				<el-breadcrumb-item :to="{path: '/'}">产品管理</el-breadcrumb-item>
 				<el-breadcrumb-item>产品信息</el-breadcrumb-item>
 			</el-breadcrumb>
 		</el-row>
@@ -42,23 +42,30 @@
 			</el-col>
 		</el-row>
 		<el-row class="table">
-        	<el-button type="primary">新增产品</el-button>
+        	<el-button type="primary" @click="$refs['product-dialog'].show()">新增产品</el-button>
         	<el-table>
         	   <el-table-column  width="180"></el-table-column>
         	   <el-table-column label="品名" width="180"></el-table-column>
                <el-table-column label="品类" width="180"></el-table-column>
                <el-table-column label="主色" width="180"></el-table-column>
                <el-table-column label="主材质" width="180"></el-table-column>
-               <el-table-column label="开发人员" width="180"></el-table-column>
-               <el-table-column  width="180"></el-table-column>
+               <el-table-column label="开发人员" width="100"></el-table-column>
+               <el-table-column  width="100"></el-table-column>
         	</el-table>
 		</el-row>
+        <product-edit
+        ref="product-dialog"
+        >
+        </product-edit>
 	</div>
 </template>
 
 <script type="text/javascript">
+   import ProductEdit from './edit-product'
    export default {
-
+   	  components: {
+   	  	ProductEdit
+   	  },
    	  data() {
 	    return {
 	      search: {
