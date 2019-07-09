@@ -2,9 +2,9 @@
 	<el-dialog
        class='base-dialog'
        title="商品信息"
-       :show-close='false'
+       :show-close='true'
        :visible.sync='visible'
-       :modal-append-to-body='true'
+       width='1000px'
 	>
 	<el-row class="nav">
 	<el-breadcrumb separator="/">
@@ -13,16 +13,23 @@
 	<el-breadcrumb-item>编辑产品</el-breadcrumb-item>
 	</el-breadcrumb>
 	</el-row>
-	<div class='title'>基础信息</div>
+	<div class='title baseinfo'><h4>基础信息</h4></div>
     <edit-baseinfo></edit-baseinfo>
+    <hr>
+    <div class='title baseinfo' v-show="true">
+    	<h3>图片相册</h3>
+    	<edit-photo></edit-photo>
+    </div>
 	</el-dialog>
 </template>
 
 <script>
     import editBaseinfo from './edit-baseinfo'
+    import editPhoto from './edit-photo'
 	export default {
 	components: {
-		editBaseinfo
+		editBaseinfo,
+        editPhoto
 	},
 	data() {
 		return {
@@ -39,6 +46,9 @@
 <style lang='scss' scoped>
 .el-dialog-body {
   padding: 0 20px;
+}
+.baseinfo{
+	 margin-bottom:10px;
 }
 .mfn-position {
   position: relative;
