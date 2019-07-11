@@ -11,3 +11,13 @@ export const getUserInfo = () => {
 export const saveUserInfo = (data) => {
 	request('me/info/save', 'post', data);
 }
+
+export const saveProductBaseInfo = (data) => {
+	return request('product/detail/save', 'post', data);
+}
+
+export const getkAttribute = () => {
+	return request('product/attribute','get',null,true).then((data) => {
+		return data;
+	})
+}

@@ -14,7 +14,7 @@
 	</el-breadcrumb>
 	</el-row>
 	<div class='title baseinfo'><h4>基础信息</h4></div>
-    <edit-baseinfo></edit-baseinfo>
+    <edit-baseinfo :initalProduct="product"></edit-baseinfo>
     <hr>
     <div class='title baseinfo' v-show="true">
     	<h3>图片相册</h3>
@@ -26,6 +26,19 @@
 <script>
     import editBaseinfo from './edit-baseinfo'
     import editPhoto from './edit-photo'
+    import * as rootController from '../../../api/rootController'
+    const defaultProduct = {
+    	name: '',
+    	mfn: '',
+    	cat: '',
+    	clr: '',
+    	mat: '',
+    	length: '',
+    	width: '',
+    	height: '',
+    	weight: '',
+      album: [],
+    }
 	export default {
 	components: {
 		editBaseinfo,
@@ -34,12 +47,17 @@
 	data() {
 		return {
 			visible: false,
+			product: defaultProduct,
+      attribute: []
 		}
 	},
 	methods: {
 		show(id = null) {
 			this.visible = true;
-		}
+		},
+    getAttribute(){
+     
+    }
 	}
 	}
 </script>

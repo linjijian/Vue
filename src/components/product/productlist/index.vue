@@ -43,10 +43,34 @@
 		</el-row>
 		<el-row class="table">
         	<el-button type="primary" @click="$refs['product-dialog'].show()">新增产品</el-button>
-        	<el-table>
+        	<el-table
+              stripe
+              ref="productTable"
+              :data="productList"
+        	>
+        	   <el-table-column
+					type="selection"
+					width="36">
+			   </el-table-column>
+			   <el-table-column>
+					<template slot-scope="scope">
+						<el-popover
+							ref="popover"
+							placement="right-start"
+							trigger="hover"
+							:visible-arrow="false">
+							<img v-if="scope.row.cover" :src="scope.row.cover" style="width: 200px; height: 200px;">
+							<img v-else src="/static/no-photo.jpg" style="width: 200px; height: 200px;">
+							<img slot="reference" v-if="scope.row.cover" :src="scope.row.cover" style="width: 60px;height: 60px;border: 1px solid #F9FAFC;vertical-align: middle; margin: 5px">
+							<img slot="reference" v-else src="/static/no-photo.jpg" style="width: 60px;height: 60px;border: 1px solid #F9FAFC;vertical-align: middle; margin: 5px">
+						</el-popover>
+
+					</template>
+			   </el-table-column>
         	   <el-table-column  width="180"></el-table-column>
         	   <el-table-column label="品名" width="180"></el-table-column>
-               <el-table-column label="品类" width="180"></el-table-column>
+        	   <el-table-column label="品类" width="180"></el-table-column>
+               <el-table-column label="MFN" width="180"></el-table-column>
                <el-table-column label="主色" width="180"></el-table-column>
                <el-table-column label="主材质" width="180"></el-table-column>
                <el-table-column label="开发人员" width="100"></el-table-column>
