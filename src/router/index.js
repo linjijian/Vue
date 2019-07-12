@@ -4,6 +4,7 @@ import VueRouter from 'vue-router'
 import Login from '../components/login/login'
 import Index from '../components/index/index'
 import productInfo from '../components/product/productlist/index'
+import productAttribute from '../components/product/productAttribute/index'
 
 Vue.use(VueRouter)
 
@@ -14,7 +15,8 @@ const router = new VueRouter({
     { path: '/',
       component: Index,
       children: [
-        { path: '/product/productInfo', component: productInfo }
+        { path: '/product/productInfo', component: productInfo },
+        { path: '/product/productAttribute', component: productAttribute }
       ]
     },
     ]

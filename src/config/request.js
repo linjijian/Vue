@@ -34,6 +34,7 @@ export default async(url, method, data = {}, forbid) => {
 				}
 			}
 		}
+		// console.log(response.data);
 		return Promise.resolve(response.data.dat)
 	} else if (response.data.res === 0) {
 		Notification.error({

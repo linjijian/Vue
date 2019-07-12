@@ -20,12 +20,18 @@
     	<h3>图片相册</h3>
     	<edit-photo></edit-photo>
     </div>
+    <hr>
+    <div class='title baseinfo' v-show="true">
+      <h3>扩展属性</h3>
+      <edit-attribute></edit-attribute>
+    </div>
 	</el-dialog>
 </template>
 
 <script>
     import editBaseinfo from './edit-baseinfo'
     import editPhoto from './edit-photo'
+    import editAttribute from './edit-attribute'
     import * as rootController from '../../../api/rootController'
     const defaultProduct = {
     	name: '',
@@ -42,7 +48,8 @@
 	export default {
 	components: {
 		editBaseinfo,
-        editPhoto
+    editPhoto,
+    editAttribute
 	},
 	data() {
 		return {
@@ -54,10 +61,7 @@
 	methods: {
 		show(id = null) {
 			this.visible = true;
-		},
-    getAttribute(){
-     
-    }
+		}
 	}
 	}
 </script>

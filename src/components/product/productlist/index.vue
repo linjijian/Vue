@@ -1,5 +1,5 @@
 <template>
-	<div class="sd-comm-manage">
+	<div class="product-manage">
 		<el-row class="nav">
 			<el-breadcrumb separator="/">
 				<el-breadcrumb-item :to="{path: '/'}">产品管理</el-breadcrumb-item>
@@ -46,7 +46,6 @@
         	<el-table
               stripe
               ref="productTable"
-              :data="productList"
         	>
         	   <el-table-column
 					type="selection"
