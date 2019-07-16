@@ -14,7 +14,7 @@
         label-position='left'
         ref='attribute'
         id="attribute"
-        :rule='rules'
+        :rules='rules'
         >
         <el-row :gutter="40">
           <el-col :span="10">
@@ -23,7 +23,7 @@
             </el-form-item>
           </el-col >
           <el-col :span="6">
-          <el-button type="primary" size="small" @click="AddAttribute">添加属性</el-button>
+          <el-button type="primary" size="small" @click="addAttribute">添加属性</el-button>
           </el-col>
         </el-row>
         <el-row :gutter="40">
@@ -33,7 +33,7 @@
             </el-form-item>
           </el-col >
           <el-col :span="6">
-          <el-button type="primary" size="small">重置</el-button>
+          <el-button type="primary" size="small" @click="emptyAttribute">重置</el-button>
           </el-col>
         </el-row>
 
@@ -63,8 +63,8 @@
           </el-table-column>
           <el-table-column label="操作" width="150">
           	<template slot-scope="scope">
-              <el-button type="text" size="small">编辑</el-button>
-              <el-button type="danger" size="mini">删除</el-button>
+              <el-button type="text" size="small" @click="$refs['attdetail'].show(scope.row)">编辑</el-button>
+              <el-button type="danger" size="mini" @click="delt(scope.row._id)">删除</el-button>
             </template>
           </el-table-column>
           </el-table>
@@ -74,25 +74,42 @@
       :hide-on-single-page="false"
       @size-change="handleSizeChange"
       @current-change="handleCurrentChange"
-      :page-sizes="[5, 10, 15, 20]"
+      :page-sizes="[10, 20, 30, 40]"
       :page-size="pagesize"
       layout="total, sizes, prev, pager, next, jumper"
       :total="this.attributelist.length">
      </el-pagination>
      </el-row>
+     <hr>
+     <attribute-Detail ref="attdetail"></attribute-Detail>
 	</div>
 </template>
 <script>
   import * as rootController from '../../../api/rootController'
+  import AttributeDetail from './AttributeDetail'
 	export default {
+    components: {
+      AttributeDetail
+    },
 		data() {
+      var validateFirletter = (rule, value, callback) => {
+         let Firletter = /^[a-zA-Z][a-zA-Z0-9_]*$/
+         if (!value) {
+           callback(new Error('请输入属性字段名'))
+         } else if (Firletter.test(value)) {
+          callback()
+         } else {
+          callback(new Error('请输入以字母开头，字母数字下划线组成的字段名'))
+         }
+      }
 		  return {
 		  	attributelist: [],
-        pagesize: 5,
+        pagesize: 10,
         currentPage: 1,
         attribute: {},
         rules: {
-          name: [{ required: true, message: '请输入属性名称', trigger: 'blur' }]
+          name: [{ required: true, message: '请输入属性名称', trigger: 'blur' }],
+          id: [{ validator: validateFirletter, trigger: 'blur' }]
         }
 		  }
 		},
@@ -105,21 +122,49 @@
       }
     },
 		created() {
-            rootController.getAttribute()
-            .then((data) => {
-            	this.attributelist = data;
-            })
+      this.getAttribute()
 		},
     methods: {
+      getAttribute() {
+        rootController.getAttribute()
+          .then((data) => {
+            this.attributelist = data;
+          }).catch((err) => {
+            console.log(err)
+          })
+      },
       handleCurrentChange(currentPage) {
          this.currentPage = currentPage;
       },
       handleSizeChange(pagesize) {
          this.pagesize = pagesize;
       },
-      AddAttribute() {
-
+      addAttribute() {
+         let self = this
+         self.$refs['attribute'].validate(valid => {
+           if (valid) {
+             let attriFormdata = new FormData()
+             attriFormdata.append('name', self.attribute.name)
+             attriFormdata.append('id', self.attribute.id)
+             rootController.saveAttribute(attriFormdata)
+             .then((res) => {
+               self.attribute.pid = res.pid
+               self.attribute.name = null
+               self.attribute.id = null
+               self.getAttribute()
+             }).catch((err) => {
+               console.log(err)
+             })
+           }
+         })
+      },
+      emptyAttribute() {
+        this.attribute={}
+      },
+      delt(row) {
+        console.log(row)
       }
+
     }
 	}
 </script>

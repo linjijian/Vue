@@ -22,12 +22,13 @@ export const getAttribute = () => {
 	})
 }
 
-export const getAttributeDetail = (data) => {
+export const getAttbuDetail = (data) => {
     return request('product/attribute/detail', 'get', data, true).then((data) => {
+    	console.log(data);
 		return data;
 	})
 }
 
-export const saveAttributeDetail = (data) => {
-	
+export const saveAttribute = (data) => {
+	return request('product/attribute/save', 'post', data);
 }
