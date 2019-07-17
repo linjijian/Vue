@@ -80,7 +80,8 @@
           >
           </el-table-column>
           </el-table>
-	   </el-row>
+	      </el-row>
+        <hr>
     </el-dialog>
 </template>
 <script>
@@ -104,15 +105,14 @@
           	attbudetlist: [],
             rules: {
             name: [{ required: true, message: '请输入属性名称', trigger: 'blur' }],
-            id: [{ validator: validateFirletter, trigger: 'blur' }]
+            id: [{ required: true, validator: validateFirletter, trigger: 'blur' }]
             }
           }
     	},
     	methods: {
-    	  getAttributeDetail(formdata) {
-             rootController.getAttbuDetail(formdata)
+    	  getAttributeDetail(jsondata) {
+             rootController.getAttbuDetail(jsondata)
              .then((data) => {
-             	console.log(data)
              	this.attbudetlist = data.sub
              }).catch((err) => {
              	console.log(err)
@@ -123,10 +123,7 @@
     	  	if (parentdata) {
     	  		self.visible = true
     	  		self.pareattribute = parentdata
-    	  		let pformdata = new FormData()
-    	  		console.log(self.pareattribute)
-    	  		pformdata.append('_id', self.pareattribute._id)
-    	  		self.getAttributeDetail(pformdata)
+    	  		self.getAttributeDetail({ _id: self.pareattribute._id })
     	  	}
     	  },
          addAttributedetail() {
@@ -134,17 +131,18 @@
          self.$refs['attribute'].validate(valid => {
            if (valid) {
              let attriFormdata = new FormData()
+             console.log(self.attribute.name)
              attriFormdata.append('name', self.attribute.name)
+             console.log(self.attribute.id)
              attriFormdata.append('id', self.attribute.id)
+             console.log(self.pareattribute._id)
              attriFormdata.append('pid', self.pareattribute._id)
              rootController.saveAttribute(attriFormdata)
              .then((res) => {
-               self.attribute.pid  = res.pid
+               self.attribute.pid = res.pid
                self.attribute.name = null
                self.attribute.id = null
-               let pformdata = new FormData()
-    	  	   pformdata.append('_id', self.pareattribute._id)
-               self.getAttributeDetail(pformdata)
+               self.getAttributeDetail({ _id: self.pareattribute._id })
              }).catch((err) => {
                console.log(err)
              })

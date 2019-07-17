@@ -6,6 +6,7 @@ import Index from '../components/index/index'
 import productInfo from '../components/product/productlist/index'
 import productAttribute from '../components/product/productAttribute/index'
 import attributeDetail from '../components/product/productAttribute/attributeDetail'
+import stockOrder from '../components/stock/stock'
 
 Vue.use(VueRouter)
 
@@ -17,7 +18,8 @@ const router = new VueRouter({
       component: Index,
       children: [
         { path: '/product/productInfo', component: productInfo },
-        { path: '/product/productAttribute', component: productAttribute }
+        { path: '/product/productAttribute', component: productAttribute },
+        { path: '/stock/stockOrder', component: stockOrder }
       ]
     },
     ]

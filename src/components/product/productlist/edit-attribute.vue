@@ -1,8 +1,11 @@
 <template>
-   <el-row :gutter="12">
-      <el-col :span="8">
-      </el-col>
-   </el-row>
+   <div>
+	  <el-card class="attcard" v-for="attribute in attributelist">
+	  	<div slot="header" class="attribute">
+           <el-checkbox v-model="checked">{{attribute.name}}</el-checkbox>
+	  	</div>	
+	  </el-card>
+   </div>
 </template>
 <script>
     import * as rootController from '../../../api/rootController'
@@ -10,14 +13,12 @@
 		props: ['initalAttribute'],
 		data() {
 			return {
-               attribute: this.initalAttribute
+               checked: '',
+               attributelist: this.initalAttribute
 			}
 		},
 		beforeCreate: () => {
-           rootController.getAttribute()
-           .then((res) => {
-              console.log(res);
-           })
+          
 		},
 		methods: {
 

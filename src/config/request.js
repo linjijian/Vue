@@ -14,7 +14,7 @@ export default async(url, method, data = {}, forbid) => {
     axios.defaults.headers.common['Authorization'] = 'Token kane-52653784'
     }
 	if (method == 'get') {
-        response = await axios.get(url)
+        response = await axios.get(url, { params: data })
 	} else if (method == 'post') {
 		// console.log(url);
 		response = await axios.post(url, data)

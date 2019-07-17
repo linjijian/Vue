@@ -23,7 +23,7 @@
     <hr>
     <div class='title baseinfo' v-show="true">
       <h3>扩展属性</h3>
-      <edit-attribute></edit-attribute>
+      <edit-attribute initalAttribute="attributelist"></edit-attribute>
     </div>
 	</el-dialog>
 </template>
@@ -55,9 +55,18 @@
 		return {
 			visible: false,
 			product: defaultProduct,
-      attribute: []
+      attributelist: []
 		}
 	},
+  created() {
+     rootController.getAttribute()
+     .then((res) => {
+      this.attributelist = res
+      console.log(this.attributelist)
+    }).catch((err) => {
+       console.log(err)
+    })
+  },
 	methods: {
 		show(id = null) {
 			this.visible = true;

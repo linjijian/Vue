@@ -109,7 +109,7 @@
         attribute: {},
         rules: {
           name: [{ required: true, message: '请输入属性名称', trigger: 'blur' }],
-          id: [{ validator: validateFirletter, trigger: 'blur' }]
+          id: [{ required: true, validator: validateFirletter, trigger: 'blur' }]
         }
 		  }
 		},
@@ -159,7 +159,7 @@
          })
       },
       emptyAttribute() {
-        this.attribute={}
+        this.attribute = {}
       },
       delt(row) {
         console.log(row)

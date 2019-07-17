@@ -55,17 +55,17 @@ const state = {
             {
               id: 185,
               route: '/ec-site',
-              title: '电商管理'
+              title: '采购退货'
             },
             {
               id: 186,
               route: '/exchange-manage',
-              title: '汇率管理'
+              title: '采购计划'
             },
             {
               id: 187,
               route: '/warehouse-set',
-              title: '仓库设置'
+              title: '供应商管理'
             },
           ]
     },
