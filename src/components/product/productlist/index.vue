@@ -46,6 +46,7 @@
         	<el-table
               stripe
               ref="productTable"
+              :data="productlist"
         	>
         	   <el-table-column
 					type="selection"
@@ -63,18 +64,30 @@
 							<img slot="reference" v-if="scope.row.cover" :src="scope.row.cover" style="width: 60px;height: 60px;border: 1px solid #F9FAFC;vertical-align: middle; margin: 5px">
 							<img slot="reference" v-else src="/static/no-photo.jpg" style="width: 60px;height: 60px;border: 1px solid #F9FAFC;vertical-align: middle; margin: 5px">
 						</el-popover>
-
 					</template>
 			   </el-table-column>
-        	   <el-table-column  width="180"></el-table-column>
-        	   <el-table-column label="品名" width="180"></el-table-column>
-        	   <el-table-column label="品类" width="180"></el-table-column>
-               <el-table-column label="MFN" width="180"></el-table-column>
+        	   <el-table-column prop="name" label="品名" width="180"></el-table-column>
+        	   <el-table-column prop="" label="品类" width="180"></el-table-column>
+               <el-table-column prop="mfn" label="MFN" width="180"></el-table-column>
                <el-table-column label="主色" width="180"></el-table-column>
                <el-table-column label="主材质" width="180"></el-table-column>
                <el-table-column label="开发人员" width="100"></el-table-column>
-               <el-table-column  width="100"></el-table-column>
+               <el-table-column label="操作" width="100">
+               	  <template slot-scope="scope">
+               	  	  <el-button type="text" @click="$refs['product-dialog'].show(scope.row.mfn)">编辑</el-button>
+               	  </template>
+               </el-table-column>
         	</el-table>
+		</el-row>
+		<el-row class="pagination">
+           <el-pagination
+           :current-page.sync="pageDat.current_page"
+           :page-size="parseInt(pageDat.per_page)"
+           :page-sizes="[10,20,30,50]"
+           layout="total, sizes, prev, pager, next, jumper"
+           :total="pageDat.total"
+           >
+           </el-pagination>
 		</el-row>
         <product-edit
         ref="product-dialog"
@@ -84,6 +97,7 @@
 </template>
 
 <script type="text/javascript">
+   import * as rootController from '../../../api/rootController'
    import ProductEdit from './edit-product'
    export default {
    	  components: {
@@ -94,7 +108,27 @@
 	      search: {
 	        mfn: ''
 	      },
+	      pageDat: {},
+	      productlist: []
 	    }
 	  },
+	  methods: {
+	  	getProductlist(mfndata = '') {
+	  	   let currentPage = this.pageDat.current_page || 1
+	  	   let prodformdata = new FormData()
+	  	   prodformdata.append('mfn', mfndata)
+	  	   prodformdata.append('page', currentPage)
+	  	   prodformdata.append('num_per_page', this.pageDat.per_page)
+           rootController.getProductlist(prodformdata)
+           .then((res) => {
+           	 console.log(res)
+           	 this.productlist = res.data
+           	 this.pageDat.total = res.total
+           })
+	  	}
+	  },
+	  created() {
+	  	this.getProductlist()
+	  }
    }
 </script>

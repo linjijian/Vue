@@ -16,14 +16,14 @@
 	<div class='title baseinfo'><h4>基础信息</h4></div>
     <edit-baseinfo :initalProduct="product"></edit-baseinfo>
     <hr>
-    <div class='title baseinfo' v-show="true">
+    <div class='title baseinfo' v-show="pbvisible">
     	<h3>图片相册</h3>
     	<edit-photo></edit-photo>
+      <hr>
     </div>
-    <hr>
-    <div class='title baseinfo' v-show="true">
+    <div class='title baseinfo' v-show="pbvisible">
       <h3>扩展属性</h3>
-      <edit-attribute initalAttribute="attributelist"></edit-attribute>
+      <edit-attribute :initalAttribute="attributelist"></edit-attribute>
     </div>
 	</el-dialog>
 </template>
@@ -54,22 +54,24 @@
 	data() {
 		return {
 			visible: false,
+      pbvisible: false,
 			product: defaultProduct,
       attributelist: []
 		}
 	},
-  created() {
-     rootController.getAttribute()
-     .then((res) => {
-      this.attributelist = res
-      console.log(this.attributelist)
-    }).catch((err) => {
-       console.log(err)
-    })
-  },
 	methods: {
 		show(id = null) {
 			this.visible = true;
+      if (!id) {
+        this.pbvisible = false
+      } else {
+        this.pbvisible = true
+        rootController.getProductDetail({mfn:id})
+        .then((res) => {
+          console.log(res)
+        })
+
+      }
 		}
 	}
 	}

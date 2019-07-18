@@ -12,8 +12,16 @@ export const saveUserInfo = (data) => {
 	request('me/info/save', 'post', data);
 }
 
+export const getProductlist = (data) => {
+	return request('product', 'get', data);
+}
+
 export const saveProductBaseInfo = (data) => {
 	return request('product/detail/save', 'post', data);
+}
+
+export const getProductDetail = (data) => {
+    return request('product/detail', 'get', data)
 }
 
 export const getAttribute = () => {
