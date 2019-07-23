@@ -7,11 +7,11 @@
 		 	</el-breadcrumb>
 	   </el-row>
        <el-row class="tabs" style="margin-top: 40px;">
-          <el-tabs  type="card">
-          	<el-tab-pane label="未完成" name="first" class="unfinishstock">
+          <el-tabs  type="card" :value="tabvalue">
+          	<el-tab-pane label="未完成" name="first" class="unfinishstock" tab-click=" ">
           	   <stock-list stockstep="0"></stock-list>
           	</el-tab-pane>
-          	<el-tab-pane label="已完成" name="second" class="finishstock">
+          	<el-tab-pane label="已完成" name="second" class="finishstock" tab-click=" ">
           	   <stock-list stockstep="1"></stock-list>
           	</el-tab-pane>
           </el-tabs>
@@ -27,6 +27,7 @@
    	  data() {
    	  	return {
            stockcode: '',
+           tabvalue: 'first'
    	  	}
    	  },
    }

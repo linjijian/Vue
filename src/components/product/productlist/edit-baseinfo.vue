@@ -18,7 +18,7 @@
 	   <el-row>
       <el-col :span="8">
 	   	  <el-form-item label='MFN' prop='mfn'>
-            <el-input v-model='product.mfn' placeholder='MFN'></el-input>
+            <el-input v-model='product.mfn' placeholder='MFN'  :disabled="mfndisable"></el-input>
         </el-form-item>
       </el-col>
 	  </el-row>
@@ -87,7 +87,7 @@
 <script>
     import * as rootController from '../../../api/rootController'
     export default{
-       props: ['initalProduct'],
+       props: ['initalProduct', 'mfndisable'],
        data() {
         var validateNumberTwo = (rule, value, callback) => {
             let numtwo = /^(([1-9]{1}\d*)|(0{1}))(\.\d{0,2})?$/
@@ -101,7 +101,6 @@
             }
           }
          return {
-         	product: this.initalProduct,
           rules: {
             name: [{ required: true, message: '请输入商品名称', trigger: 'blur' }],
             height: [{ validator: validateNumberTwo, trigger: 'blur' }],
@@ -109,6 +108,11 @@
             width: [{ validator: validateNumberTwo, trigger: 'blur' }],
             weight: [{ validator: validateNumberTwo, trigger: 'blur' }]
           }
+         }
+       },
+       computed: {
+         product() {
+           return this.initalProduct
          }
        },
        methods: {
@@ -120,9 +124,10 @@
                    Object.keys(self.product).forEach((key) => {
                      baseformdata.append(key, self.product[key])
                    })
+                   console.log(self.product.name)
                  rootController.saveProductBaseInfo(baseformdata)
                   .then((res) => {
-                     self.product = res;
+                     this.$emit('basesuccess')
                   })
                 }
              })

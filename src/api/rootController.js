@@ -24,6 +24,10 @@ export const getProductDetail = (data) => {
     return request('product/detail', 'get', data)
 }
 
+export const saveProductAttribute = (data) => {
+	return request('product/detail/saveAttribute', 'post', data)
+}
+
 export const getAttribute = () => {
 	return request('product/attribute', 'get', null).then((data) => {
 		return data;
@@ -45,3 +49,7 @@ export const getStocklist = (data) => {
     	return data;
     })
 }
+
+// export const exportexcel = (data) => {
+// 	return request.downloadexcel('product/io/export', data)
+// }

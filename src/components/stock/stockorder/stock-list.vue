@@ -6,19 +6,23 @@
           	   	  <el-button slot="append" icon="el-icon-search" @click="getstocklist"></el-button>
           	   	  </el-input>
           	</el-col>
+            <el-col :span="4" :offset="10">
+               <el-button type="primary" v-show="stockstep === '0' " @click="pushstockedit">添加采购单</el-button>
+            </el-col>
         </el-row>
         <el-row style="margin-top:30px;">
             <el-table
             stripe
             style="width:100%"
+            :data="stocklist"
             >
-            <el-table-column label="采购单号" width="160"></el-table-column>
-            <el-table-column label="供应商" width="220"></el-table-column>
-            <el-table-column label="类型" width="140"></el-table-column>
-            <el-table-column label="状态" width="180"></el-table-column>
-            <el-table-column label="目的仓库" width="220"></el-table-column>
-            <el-table-column label="采购员/创建日期" width="220"></el-table-column>
-            <el-table-column label="操作" width="160">
+            <el-table-column prop="id" label="采购单号" width="160"></el-table-column>
+            <el-table-column prop="vendorName" label="供应商" width="220"></el-table-column>
+            <el-table-column prop="_transport_type" label="类型" width="140"></el-table-column>
+            <el-table-column prop="_step" label="状态" width="180"></el-table-column>
+            <el-table-column prop="warehouseName" label="目的仓库" width="220"></el-table-column>
+            <el-table-column prop="" label="采购员/创建日期" width="220"></el-table-column>
+            <el-table-column prop="" label="操作" width="160">
             <template slot-scope="scope">
                	<el-button type="text" size="small">查看</el-button>
                	<el-button type="text" size="small">删除</el-button>
@@ -29,29 +33,32 @@
 	</div>
 </template>
 <script>
-  import * as rootController from '../../api/rootController'
+  import * as rootController from '../../../api/rootController'
   export default {
   	props: ['stockstep'],
   	data() {
   		return {
   		  stockcode: '',
-          stocklist: []
+        stocklist: []
   		}
   	},
   	created() {
-
+      console.log(this.stockstep)
+       this.getstocklist()
   	},
   	 methods: {
          getstocklist() {
          	let stockformdata = new FormData()
-         	stockformdata.append('step', this.stockstep)
-         	stockformdata.append('id', this.stockcode)
-         	rootController.getStocklist(stockformdata)
+         	rootController.getStocklist({ step: this.stockstep, id: this.stockcode })
          	.then((data) => {
          		console.log(data)
+            this.stocklist = data.data
          	}).catch((err) => {
          		console.log(err)
          	})
+         },
+         pushstockedit(stockcode = null) {
+            this.$router.push('/stock/stockEdit')
          }
    	 }
   }

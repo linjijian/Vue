@@ -4,7 +4,9 @@
        title="商品信息"
        :show-close='true'
        :visible.sync='visible'
+       :close-on-click-modal='false'
        width='1000px'
+       :before-close="closeDialog"
 	>
 	<el-row class="nav">
 	<el-breadcrumb separator="/">
@@ -14,7 +16,7 @@
 	</el-breadcrumb>
 	</el-row>
 	<div class='title baseinfo'><h4>基础信息</h4></div>
-    <edit-baseinfo :initalProduct="product"></edit-baseinfo>
+    <edit-baseinfo :initalProduct="product" :mfndisable="mfndisable"  @basesuccess="sendgetProductlist"></edit-baseinfo>
     <hr>
     <div class='title baseinfo' v-show="pbvisible">
     	<h3>图片相册</h3>
@@ -23,7 +25,7 @@
     </div>
     <div class='title baseinfo' v-show="pbvisible">
       <h3>扩展属性</h3>
-      <edit-attribute :initalAttribute="attributelist"></edit-attribute>
+      <edit-attribute :initalAttribute="attributelist" @attsuccess="getProductDetail({mfn:product.mfn})"></edit-attribute>
     </div>
 	</el-dialog>
 </template>
@@ -34,6 +36,7 @@
     import editAttribute from './edit-attribute'
     import * as rootController from '../../../api/rootController'
     const defaultProduct = {
+      _id: '',
     	name: '',
     	mfn: '',
     	cat: '',
@@ -56,23 +59,55 @@
 			visible: false,
       pbvisible: false,
 			product: defaultProduct,
-      attributelist: []
+      attributelist: [],
+      mfndisable: false
 		}
 	},
 	methods: {
 		show(id = null) {
-			this.visible = true;
+      let self = this
+			self.visible = true;
       if (!id) {
-        this.pbvisible = false
-      } else {
-        this.pbvisible = true
-        rootController.getProductDetail({mfn:id})
-        .then((res) => {
-          console.log(res)
+        self.pbvisible = false
+        self.mfndisable = false
+        Object.keys(self.product).forEach((key) => {
+           self.product[key] = ''
         })
-
+      } else {
+        self.pbvisible = true
+        self.mfndisable = true
+        self.getProductDetail({ mfn: id })
       }
-		}
+		},
+    getProductDetail(data) {
+      let self = this
+      rootController.getProductDetail(data)
+        .then((res) => {
+          self.attributelist = res
+          Object.keys(self.product).forEach((key) => {
+               console.log(res[key])
+               if (res[key] === 'null') {
+                 self.product[key] = ''
+               } else {
+               self.product[key] = res[key]
+             }
+          })
+        }).catch((err) => {
+          console.log(err)
+        })
+    },
+    sendgetProductlist() {
+      this.$emit('success')
+    },
+    closeDialog(done) {
+    let self = this
+    this.$confirm('确认是否关闭产品编辑信息框？')
+    .then(_ => {
+      done();
+        // location.reload();
+     })
+    .catch(_ => { });
+    }
 	}
 	}
 </script>

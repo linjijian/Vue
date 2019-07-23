@@ -46,4 +46,11 @@ export default async(url, method, data = {}, forbid) => {
 	}
 }
 
+export function downloadexcel(url, data) {
+	if (sessionStorage.getItem('token')) {
+    axios.defaults.headers.common['Authorization'] = 'Token kane-52653784'
+    }
+	return axios.get(url, { params: data, responseType: 'blob' })
+}
+
 export { axios }
